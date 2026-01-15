@@ -13,9 +13,6 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-
 # Initialize text-to-speech engine
 engine = pyttsx3.init()
 engine.setProperty('rate', 150)  # Speed of speech
@@ -54,8 +51,8 @@ def listen():
             return None
 
 
-def get_gpt3_response(prompt):
-    """Get response from GPT-3"""
+def get_gpt3_response(prompt, client):
+    """Get response from GPT-3.5-turbo"""
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -68,7 +65,7 @@ def get_gpt3_response(prompt):
         )
         return response.choices[0].message.content
     except Exception as e:
-        print(f"Error getting GPT-3 response: {e}")
+        print(f"Error getting response from OpenAI: {e}")
         return "I'm sorry, I encountered an error processing your request."
 
 
@@ -83,6 +80,9 @@ def main():
         print("Error: OPENAI_API_KEY not found in environment variables.")
         print("Please create a .env file with your OpenAI API key.")
         return
+    
+    # Initialize OpenAI client after API key check
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     
     speak("Hello! I'm your voice assistant. How can I help you today?")
     
@@ -99,7 +99,7 @@ def main():
             break
         
         # Get response from GPT-3
-        response = get_gpt3_response(user_input)
+        response = get_gpt3_response(user_input, client)
         
         # Speak the response
         speak(response)
