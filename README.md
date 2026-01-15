@@ -1,6 +1,6 @@
 # Voice Assistant with OpenAI GPT-3
 
-A simple voice-activated assistant powered by OpenAI's GPT-3 that listens to your voice commands, processes them using GPT-3, and responds with natural speech.
+A simple voice-activated assistant powered by OpenAI's GPT-3 (specifically GPT-3.5-turbo) that listens to your voice commands, processes them using GPT-3, and responds with natural speech.
 
 ## Features
 
